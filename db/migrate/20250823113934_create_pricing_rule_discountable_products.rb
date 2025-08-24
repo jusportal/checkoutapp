@@ -6,6 +6,7 @@ class CreatePricingRuleDiscountableProducts < ActiveRecord::Migration[8.0]
       t.decimal :percentage_discount
       t.integer :discounted_price_micros
       t.integer :limit
+      t.integer :offset
 
       t.timestamps
     end

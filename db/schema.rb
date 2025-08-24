@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_114118) do
     t.decimal "percentage_discount"
     t.integer "discounted_price_micros"
     t.integer "limit"
+    t.integer "offset"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_pricing_rule_discountable_products_on_product_id"
@@ -71,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_114118) do
 
   create_table "product_pricing_rules", force: :cascade do |t|
     t.string "name"
+    t.integer "total_discount_micros"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
