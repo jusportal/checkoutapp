@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :product do
+  factory :product_item do
     product  { create(:product) }
     item { create(:item) }
   end
