@@ -10,7 +10,10 @@ class ApplyProductPricingRule
   def persist
     self.pricing_rule_discountable_products.each do |disc_product|
       self.apply_discount(disc_product)
-      self.mark_related_orders(disc_product)
+    end
+
+    self.pricing_rule_required_products.each do |req_product|
+      self.mark_related_orders(req_product)
     end
   end
 
@@ -40,13 +43,10 @@ class ApplyProductPricingRule
       end
     end
 
-    def mark_related_orders(disc_product)
-      required_count = self.pricing_rule_required_products.
-        find_by(product_id: disc_product.product_id)&.required_count || 0
-
+    def mark_related_orders(req_product)
       related_orders = self.orders.undiscounted.
-        where(product_id: disc_product.product_id).
-        limit(required_count)
+        where(product_id: req_product.product_id).
+        limit(req_product.required_count)
 
       related_orders.each do |order|
         order.update(
