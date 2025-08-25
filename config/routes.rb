@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  namespace :admin do
+      resources :carts
+      resources :items
+      resources :orders
+      resources :pricing_rule_discountable_products
+      resources :pricing_rule_required_products
+      resources :products
+      resources :product_items
+      resources :product_pricing_rules
+
+      root to: "carts#index"
+    end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
