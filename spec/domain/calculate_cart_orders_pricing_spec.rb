@@ -63,6 +63,31 @@ RSpec.describe CalculateCartOrdersPricing do
       end
     end
 
+    context 'buy 1 take 1 green tea, example 3' do
+      let!(:orders) do
+        orders = [
+          "SR1",
+          "GR1",
+          "GR1",
+          "GR1"
+        ].map do |product_code|
+          product = Product.find_by(code: product_code)
+          create(:order,
+            cart: cart,
+            product: product,
+            price_micros: product.price_micros
+          )
+        end
+
+        Order.where(id: orders.pluck(:id))
+      end
+
+      it 'computes discounted total price' do
+        subject.persist
+        expect(orders.reload.sum(:price_micros)).to eq(11_220_000)
+      end
+    end
+
     context 'buy 3 then get 3 discounted price' do
       let!(:orders) do
         orders = [

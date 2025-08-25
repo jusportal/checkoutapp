@@ -3,11 +3,16 @@ class CalculateCartOrdersPricing
 
   def initialize(cart)
     @cart = cart
-    @orders = self.cart.orders
+    @orders = self.cart.orders.includes(:product)
   end
 
   def persist
-    self.orders.update_all(denormalized_product_pricing_rule: nil)
+    self.orders.each do |order|
+      order.update(
+        denormalized_product_pricing_rule: nil,
+        price_micros: order.product.price_micros
+      )
+    end
 
     current_product_pricing_rule = self.detect_product_pricing_rule(self.orders)
     undiscounted_orders = self.orders

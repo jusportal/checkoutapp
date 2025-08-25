@@ -5,7 +5,7 @@ RSpec.describe DetectProductPricingRule do
 
   let(:cart) { create(:cart) }
   let!(:orders) do
-    [
+    orders = [
       green_tea,
       green_tea,
       green_tea,
@@ -18,6 +18,8 @@ RSpec.describe DetectProductPricingRule do
         price_micros: product.price_micros
       )
     end
+
+    Order.where(id: orders.pluck(:id))
   end
 
   subject { described_class.new(orders) }
@@ -43,6 +45,20 @@ RSpec.describe DetectProductPricingRule do
 
       it 'detects the correct rule' do
         expect(subject.product_pricing_rule).to eq rule1
+      end
+    end
+
+    context 'with not enough required orders' do
+      before do
+        green_tea_buy_1_get_1.pricing_rule_discountable_products.
+          first.update(offset: 3)
+
+        green_tea_buy_1_get_1.pricing_rule_required_products.
+          first.update(required_count: 3)
+      end
+
+      it 'does not detect the rule' do
+        expect(subject.product_pricing_rule).to be_nil
       end
     end
   end
