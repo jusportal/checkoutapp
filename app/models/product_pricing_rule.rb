@@ -4,6 +4,12 @@ class ProductPricingRule < ApplicationRecord
 
   after_save :set_total_discount
 
+  def denormalized
+    self.attributes.
+      merge(requirement: self.pricing_rule_required_products.map(&:attributes)).
+      merge(discountable: self.pricing_rule_discountable_products.map(&:attributes))
+  end
+
   private
 
     def set_total_discount

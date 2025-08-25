@@ -38,7 +38,7 @@ class ApplyProductPricingRule
       discountable_orders.each do |order|
         order.update(
           price_micros: disc_product.discounted_price_micros,
-          denormalized_product_pricing_rule: {}
+          denormalized_product_pricing_rule: self.product_pricing_rule.denormalized
         )
       end
     end
@@ -50,7 +50,7 @@ class ApplyProductPricingRule
 
       related_orders.each do |order|
         order.update(
-          denormalized_product_pricing_rule: {}
+          denormalized_product_pricing_rule: self.product_pricing_rule.denormalized
         )
       end
     end
