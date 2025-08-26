@@ -6,6 +6,9 @@
         <h1 class="text-3xl font-bold text-gray-900">Orders for <%= @cart.customer_name %></h1>
       </div>
       <div class="flex space-x-3">
+        <%= link_to "Admin", admin_products_path,
+            class: "bg-white text-violet-600 py-2 px-4 rounded-md border border-violet-600" %>
+
         <%= link_to "New Cart", new_cart_path,
             class: "bg-violet-600 text-white py-2 px-4 rounded-md hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-colors" %>
       </div>
